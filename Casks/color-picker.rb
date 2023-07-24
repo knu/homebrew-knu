@@ -5,7 +5,7 @@ cask "color-picker" do
   url "https://dsc.cloud/sindresorhus/Color-Picker-#{version.csv.first}-#{version.csv.second}.zip",
       verified: "dsc.cloud/sindresorhus/"
   name "Color Picker"
-  desc "The familiar color picker supercharged"
+  desc "Standalone System Color Picker supercharged"
   homepage "https://sindresorhus.com/system-color-picker"
 
   livecheck do
