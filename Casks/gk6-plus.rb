@@ -8,6 +8,16 @@ cask "gk6-plus" do
   desc "Keyboard utility for GK6 series PCB/Keyboards"
   homepage "http://www.jikedingzhi.com/downloadlist?driverID=90"
 
+  livecheck do
+    url "http://www.jikedingzhi.com/downloadlist?driverID=90"
+    regex(/href.*?\/GK6X%20Mac%20App-(\d+(?:\.\d+)+)\.dmg"/)
+    strategy :page_match do |page, regex|
+      page.scan(regex).map { |match| match[0] }
+    end
+  end
+
+  depends_on macos: ">= :ventura"
+
   app "GK6+.app"
 
   zap trash: [
