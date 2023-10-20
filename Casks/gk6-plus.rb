@@ -1,6 +1,6 @@
 cask "gk6-plus" do
-  version "1.0.0.1"
-  sha256 "c896df76e567ba842083042e4ed14d6b14efc7f5ba8988247d4cbc9b2e609aee"
+  version "1.0.0.23"
+  sha256 "c63841a922e044d36401ed4a16038656abc082df45b2e1a4069b20cae65d7034"
 
   url "http://cloudmouse.oss-cn-beijing.aliyuncs.com/AppData/90/GK6X%20Mac%20App-#{version}.dmg",
       verified: "cloudmouse.oss-cn-beijing.aliyuncs.com/AppData/"
@@ -10,7 +10,7 @@ cask "gk6-plus" do
 
   livecheck do
     url "http://www.jikedingzhi.com/downloadlist?driverID=90"
-    regex(/href.*?\/GK6X%20Mac%20App-(\d+(?:\.\d+)+)\.dmg"/)
+    regex(%r{href.*?/GK6X%20Mac%20App-(\d+(?:\.\d+)+)\.dmg"})
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match[0] }
     end
