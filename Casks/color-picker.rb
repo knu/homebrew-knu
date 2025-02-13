@@ -1,18 +1,18 @@
 cask "color-picker" do
-  version "1.13.0,1679983870"
-  sha256 "15db2bea2ba350d1b4e62598e0b36f67f06cc4976cf605e6de1a14ea251f4e06"
+  version "2.0.2-1718996226,reztjse2ei8xsegdb3iic,1bi5zf6r1jb2wcrheve8tddya"
+  sha256 "9ea71d91f1d5e35e539c09d9df3bfcb208b7b801237c453cc14ddc3dd21ad9a8"
 
-  url "https://dsc.cloud/sindresorhus/Color-Picker-#{version.csv.first}-#{version.csv.second}.zip",
-      verified: "dsc.cloud/sindresorhus/"
+  url "https://www.dropbox.com/scl/fi/#{version.csv.second}/Color-Picker-#{version.major_minor_patch}.zip?rlkey=#{version.csv.third}&raw=1",
+      verified: "dropbox.com/scl/fi/"
   name "Color Picker"
   desc "Standalone System Color Picker supercharged"
   homepage "https://sindresorhus.com/system-color-picker"
 
   livecheck do
     url "https://github.com/sindresorhus/System-Color-Picker"
-    regex(/href.*?Color-Picker-(\d+(?:\.\d+)+)-(\w+)\.zip"/i)
+    regex(/href.*?\/([^\/]+)\/Color-Picker-(\d+(?:\.\d+)+-\w+)\.zip\?rlkey=(\w+)/i)
     strategy :page_match do |page, regex|
-      page.scan(regex).map { |match| "#{match[0]},#{match[1]}" }
+      page.scan(regex).map { |match| "#{match[1]},#{match[0]},#{match[2]}" }
     end
   end
 
