@@ -5,12 +5,12 @@ class Inplace < Formula
   sha256 "e7438a7c0b82d8e1fd57870b22bd97ca144d07faa00c008df5d84d5e548c6c14"
   license "BSD-2-Clause"
 
-  depends_on "ruby"
-
   livecheck do
     url "https://rubygems.org/api/v1/gems/inplace.json"
     regex(/"version":"(\d+(?:\.\d+)+)"/i)
   end
+
+  depends_on "ruby"
 
   def install
     ENV["GEM_HOME"] = libexec

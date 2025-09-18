@@ -32,8 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "## Livecheck Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Livecheck Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
 
           # Function to create PR for formula
           update_formula() {
@@ -48,7 +48,7 @@ jobs:
             # Run brew bump-formula-pr
             brew bump-formula-pr --no-browse --no-fork --write-only \
               --version="$new_version" \
-              "${{ github.repository_owner }}/$(basename ${{ github.repository }})/$name"
+              "${{ github.repository_owner }}/$(basename "${{ github.repository }}")/$name"
 
             # Commit and push
             if git diff --stat; then
@@ -80,7 +80,7 @@ jobs:
             # Run brew bump-cask-pr
             brew bump-cask-pr --no-browse --no-fork --write-only \
               --version="$new_version" \
-              "${{ github.repository_owner }}/$(basename ${{ github.repository }})/$name"
+              "${{ github.repository_owner }}/$(basename "${{ github.repository }}")/$name"
 
             # Commit and push
             if git diff --stat; then
@@ -100,17 +100,17 @@ jobs:
           }
 
           # Check formulae
-          echo "### Formulae" >> $GITHUB_STEP_SUMMARY
+          echo "### Formulae" >> "$GITHUB_STEP_SUMMARY"
           for formula in Formula/*.rb; do
             if [ -f "$formula" ]; then
               name=$(basename "$formula" .rb)
-              result=$(brew livecheck "${{ github.repository_owner }}/$(basename ${{ github.repository }})/$name" --json 2>/dev/null || echo "{}")
+              result=$(brew livecheck "${{ github.repository_owner }}/$(basename "${{ github.repository }}")/$name" --json 2>/dev/null || echo "{}")
 
               if [ -n "$result" ] && [ "$result" != "{}" ]; then
                 current=$(echo "$result" | jq -r '.[0].version.current' 2>/dev/null || echo "")
                 latest=$(echo "$result" | jq -r '.[0].version.latest' 2>/dev/null || echo "")
 
-                echo "- **$name**: $current → $latest" >> $GITHUB_STEP_SUMMARY
+                echo "- **$name**: $current → $latest" >> "$GITHUB_STEP_SUMMARY"
 
                 if [ -n "$latest" ] && [ "$current" != "$latest" ] && [ "${{ github.event.inputs.auto_pr || 'true' }}" == "true" ]; then
                   update_formula "$name" "$latest"
@@ -120,18 +120,18 @@ jobs:
           done
 
           # Check casks
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Casks" >> $GITHUB_STEP_SUMMARY
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Casks" >> "$GITHUB_STEP_SUMMARY"
           for cask in Casks/*.rb; do
             if [ -f "$cask" ]; then
               name=$(basename "$cask" .rb)
-              result=$(brew livecheck --cask "${{ github.repository_owner }}/$(basename ${{ github.repository }})/$name" --json 2>/dev/null || echo "{}")
+              result=$(brew livecheck --cask "${{ github.repository_owner }}/$(basename "${{ github.repository }}")/$name" --json 2>/dev/null || echo "{}")
 
               if [ -n "$result" ] && [ "$result" != "{}" ]; then
                 current=$(echo "$result" | jq -r '.[0].version.current' 2>/dev/null || echo "")
                 latest=$(echo "$result" | jq -r '.[0].version.latest' 2>/dev/null || echo "")
 
-                echo "- **$name**: $current → $latest" >> $GITHUB_STEP_SUMMARY
+                echo "- **$name**: $current → $latest" >> "$GITHUB_STEP_SUMMARY"
 
                 if [ -n "$latest" ] && [ "$current" != "$latest" ] && [ "${{ github.event.inputs.auto_pr || 'true' }}" == "true" ]; then
                   update_cask "$name" "$latest"

@@ -9,12 +9,11 @@ cask "gk6-plus" do
 
   livecheck do
     url "https://skyloongtech.com/skyloong-keyboard-software/"
-    regex(%r{GK6\+Mac App V(\d+(?:\.\d+)+)}i)
+    regex(/GK6\+Mac App V(\d+(?:\.\d+)+)/i)
   end
 
-  container nested: "GK6X Mac App-#{version}.dmg"
-
   depends_on macos: ">= :ventura"
+  container nested: "GK6X Mac App-#{version}.dmg"
 
   app "GK6+.app"
 
