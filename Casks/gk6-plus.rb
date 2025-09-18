@@ -1,20 +1,18 @@
 cask "gk6-plus" do
-  version "1.0.0.23"
-  sha256 "c63841a922e044d36401ed4a16038656abc082df45b2e1a4069b20cae65d7034"
+  version "1.0.0.27"
+  sha256 "17af9d1c8df741d0022c2f2da2f4ccf5c6f21d514ea3f7c56852513ec03d86d3"
 
-  url "http://cloudmouse.oss-cn-beijing.aliyuncs.com/AppData/90/GK6X%20Mac%20App-#{version}.dmg",
-      verified: "cloudmouse.oss-cn-beijing.aliyuncs.com/AppData/"
+  url "https://skyloongtech.com/wp-content/uploads/2024/12/GK6X-Mac-App-#{version}.zip"
   name "GK6+"
   desc "Keyboard utility for GK6 series PCB/Keyboards"
-  homepage "http://www.jikedingzhi.com/downloadlist?driverID=90"
+  homepage "https://skyloongtech.com/skyloong-keyboard-software/"
 
   livecheck do
-    url "http://www.jikedingzhi.com/downloadlist?driverID=90"
-    regex(%r{href.*?/GK6X%20Mac%20App-(\d+(?:\.\d+)+)\.dmg"})
-    strategy :page_match do |page, regex|
-      page.scan(regex).map { |match| match[0] }
-    end
+    url "https://skyloongtech.com/skyloong-keyboard-software/"
+    regex(%r{GK6\+Mac App V(\d+(?:\.\d+)+)}i)
   end
+
+  container nested: "GK6X Mac App-#{version}.dmg"
 
   depends_on macos: ">= :ventura"
 
