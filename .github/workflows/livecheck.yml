@@ -78,12 +78,23 @@ jobs:
             git checkout -b "bump-$name-$new_version"
 
             # Run brew bump-cask-pr
-            brew bump-cask-pr --no-browse --no-fork --write-only \
+            brew bump-cask-pr --no-browse --no-fork --write-only --no-audit \
               --version="$new_version" \
               "${{ github.repository_owner }}/$(basename "${{ github.repository }}")/$name"
 
             # Commit and push
             if git diff --stat; then
+              # Run audit, ignore 302 errors only
+              audit_log=$(brew audit --cask --online "${{ github.repository_owner }}/$(basename "${{ github.repository }}")/$name" 2>&1) || {
+                echo "$audit_log"
+                if echo "$audit_log" | grep -E '^ +[*-] ' | grep -qv "HTTP status code 302"; then
+                  echo "Audit failed. Aborting."
+                  git checkout main
+                  git branch -D "bump-$name-$new_version"
+                  return 1
+                fi
+              }
+
               git add Casks/"$name".rb
               git commit -m "$name $new_version"
               git push origin "bump-$name-$new_version"
