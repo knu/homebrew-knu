@@ -1,14 +1,14 @@
 cask "voicevox" do
-  version "0.24.2"
+  version "0.25.0"
 
   on_arm do
-    sha256 "73360e865a068119119cb08ba35dfe23e9f9fd7b53854bd7401cc8a958c74666"
+    sha256 "e6c6b15cd0b06c4b49478c61787f360a45394aea2ed6c5e4a7a5e44bc05fb3bc"
 
     url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-arm64-#{version}.zip",
         verified: "github.com/VOICEVOX/voicevox/releases/download/"
   end
   on_intel do
-    sha256 "fe88df95ba66199f908c9b1fc761a95b7bbe9cd9a59d7e2c08972eb13fb68c87"
+    sha256 "6d16163679504052a4961aef4895851d7b4f72a22674f3af3e2e484cf5da50bf"
 
     url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-x64-#{version}.zip",
         verified: "github.com/VOICEVOX/voicevox/releases/download/"
@@ -18,12 +18,12 @@ cask "voicevox" do
   desc "Free text-to-speech and singing voice synthesis software"
   homepage "https://voicevox.hiroshiba.jp/"
 
-  depends_on macos: :big_sur
-
   livecheck do
     url :url
     strategy :github_latest
   end
+
+  depends_on macos: :big_sur
 
   app "VOICEVOX/VOICEVOX.app"
 
