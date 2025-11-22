@@ -59,7 +59,7 @@ jobs:
             if git diff --stat; then
               git add Formula/"$name".rb
               git commit -m "$name $new_version"
-              git push origin "bump-$name-$new_version"
+              git push -f origin "bump-$name-$new_version"
 
               # Create PR
               gh pr create \
@@ -102,7 +102,7 @@ jobs:
 
               git add Casks/"$name".rb
               git commit -m "$name $new_version"
-              git push origin "bump-$name-$new_version"
+              git push -f origin "bump-$name-$new_version"
 
               # Create PR
               gh pr create \
