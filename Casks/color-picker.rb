@@ -9,7 +9,7 @@ cask "color-picker" do
   homepage "https://sindresorhus.com/system-color-picker"
 
   livecheck do
-    url "https://github.com/sindresorhus/System-Color-Picker"
+    url "https://sindresorhus.com/system-color-picker"
     regex(%r{href.*?/([^/]+)/Color-Picker-(\d+(?:\.\d+)+-\w+)\.zip\?rlkey=(\w+)}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| "#{match[1]},#{match[0]},#{match[2]}" }
