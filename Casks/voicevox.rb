@@ -1,19 +1,15 @@
 cask "voicevox" do
   version "0.25.0"
 
-  on_arm do
-    sha256 "e6c6b15cd0b06c4b49478c61787f360a45394aea2ed6c5e4a7a5e44bc05fb3bc"
+  on_macos do
+    arch arm: "arm64", intel: "x64"
 
-    url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-arm64-#{version}.zip",
+    sha256 arm:   "e6c6b15cd0b06c4b49478c61787f360a45394aea2ed6c5e4a7a5e44bc05fb3bc",
+           intel: "6d16163679504052a4961aef4895851d7b4f72a22674f3af3e2e484cf5da50bf"
+
+    url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-#{arch}-#{version}.zip",
         verified: "github.com/VOICEVOX/voicevox/releases/download/"
   end
-  on_intel do
-    sha256 "6d16163679504052a4961aef4895851d7b4f72a22674f3af3e2e484cf5da50bf"
-
-    url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-x64-#{version}.zip",
-        verified: "github.com/VOICEVOX/voicevox/releases/download/"
-  end
-
   name "VOICEVOX"
   desc "Free text-to-speech and singing voice synthesis software"
   homepage "https://voicevox.hiroshiba.jp/"
