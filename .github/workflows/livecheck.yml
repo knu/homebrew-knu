@@ -46,6 +46,7 @@ jobs:
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
           REPO: ${{ github.repository }}
         run: |
+          # shellcheck disable=SC2001
           TAP=$(echo "$REPO" | sed 's|/homebrew-|/|')
 
           update_formula() {
@@ -105,6 +106,7 @@ jobs:
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
           REPO: ${{ github.repository }}
         run: |
+          # shellcheck disable=SC2001
           TAP=$(echo "$REPO" | sed 's|/homebrew-|/|')
 
           update_cask() {
