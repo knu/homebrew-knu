@@ -1,6 +1,6 @@
 cask "color-picker" do
-  version "2.1.0-1740424285,2lvdt09widz0p3jzfrwd8,yuzrr4abjfty60oscd3pcdyvc"
-  sha256 "c4834ed4d4cbf3202de889f7c2d758e9e11b57bd64863db344079ed6c673e89e"
+  version "2.2.0-1767305140,kk4c8p47uj791k5t0nj0n,jivahp9p4k5f24q76473zrnkd"
+  sha256 "bc31a7e3ae1d100c66227cc7f25efc836407c530181ae4a20933a47d9eb78a5b"
 
   url "https://www.dropbox.com/scl/fi/#{version.csv.second}/Color-Picker-#{version.major_minor_patch}.zip?rlkey=#{version.csv.third}&raw=1",
       verified: "dropbox.com/scl/fi/"
@@ -16,7 +16,7 @@ cask "color-picker" do
     end
   end
 
-  depends_on macos: ">= :sequoia"
+  depends_on macos: ">= :tahoe"
 
   app "Color Picker.app"
 
