@@ -30,7 +30,7 @@ jobs:
 
       - name: Configure git
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -42,7 +42,7 @@ jobs:
 
       - name: Check and update formulae
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
           REPO: ${{ github.repository }}
         run: |
@@ -101,7 +101,7 @@ jobs:
 
       - name: Check and update casks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
           REPO: ${{ github.repository }}
         run: |
