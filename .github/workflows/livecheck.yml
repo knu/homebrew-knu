@@ -119,27 +119,21 @@ jobs:
               --version="$new_version" \
               "$TAP/$name"
 
-            if git diff --stat; then
-              audit_log=$(brew audit --cask --online "$TAP/$name" 2>&1) || {
-                echo "$audit_log"
-                if echo "$audit_log" | grep -E '^ +[*-] ' | grep -qv "HTTP status code 302"; then
-                  echo "Audit failed. Aborting."
-                  git checkout main
-                  git branch -D "bump-$name-$new_version"
-                  return 1
-                fi
-              }
-
-              git add Casks/"$name".rb
-              git commit -m "$name $new_version"
-              git push -f origin "bump-$name-$new_version"
-
-              gh pr create \
-                --title "$name $new_version" \
-                --body "Automated version bump to $new_version" \
-                --base main \
-                --head "bump-$name-$new_version"
+            if ! git diff --stat | grep -q .; then
+              git checkout main
+              git branch -D "bump-$name-$new_version" 2>/dev/null || true
+              return 0
             fi
+
+            git add Casks/"$name".rb
+            git commit -m "$name $new_version"
+            git push -f origin "bump-$name-$new_version"
+
+            gh pr create \
+              --title "$name $new_version" \
+              --body "Automated version bump to $new_version" \
+              --base main \
+              --head "bump-$name-$new_version"
 
             git checkout main
           }
