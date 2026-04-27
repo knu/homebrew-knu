@@ -44,8 +44,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
-          TAP: ${{ github.repository_owner }}/$(basename "${{ github.repository }}")
+          REPO: ${{ github.repository }}
         run: |
+          TAP=$(echo "$REPO" | sed 's|/homebrew-|/|')
+
           update_formula() {
             local name="$1"
             local new_version="$2"
@@ -76,20 +78,24 @@ jobs:
           echo "### Formulae" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           for formula in Formula/*.rb; do
-            if [ -f "$formula" ]; then
-              name=$(basename "$formula" .rb)
-              result=$(brew livecheck "$TAP/$name" --json 2>/dev/null || echo "{}")
+            [ -f "$formula" ] || continue
+            name=$(basename "$formula" .rb)
+            echo "::group::livecheck $name"
+            result=$(brew livecheck "$TAP/$name" --json) || {
+              echo "livecheck failed for $name"
+              echo "::endgroup::"
+              continue
+            }
+            echo "$result"
+            echo "::endgroup::"
 
-              if [ -n "$result" ] && [ "$result" != "{}" ]; then
-                current=$(echo "$result" | jq -r '.[0].version.current' 2>/dev/null || echo "")
-                latest=$(echo "$result" | jq -r '.[0].version.latest' 2>/dev/null || echo "")
+            current=$(echo "$result" | jq -r '.[0].version.current')
+            latest=$(echo "$result" | jq -r '.[0].version.latest')
 
-                echo "- **$name**: $current → $latest" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **$name**: $current → $latest" >> "$GITHUB_STEP_SUMMARY"
 
-                if [ -n "$latest" ] && [ "$current" != "$latest" ] && [ "$AUTO_PR" == "true" ]; then
-                  update_formula "$name" "$latest"
-                fi
-              fi
+            if [ -n "$latest" ] && [ "$latest" != "null" ] && [ "$current" != "$latest" ] && [ "$AUTO_PR" == "true" ]; then
+              update_formula "$name" "$latest"
             fi
           done
 
@@ -97,8 +103,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
-          TAP: ${{ github.repository_owner }}/$(basename "${{ github.repository }}")
+          REPO: ${{ github.repository }}
         run: |
+          TAP=$(echo "$REPO" | sed 's|/homebrew-|/|')
+
           update_cask() {
             local name="$1"
             local new_version="$2"
@@ -139,19 +147,23 @@ jobs:
           echo "### Casks" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           for cask in Casks/*.rb; do
-            if [ -f "$cask" ]; then
-              name=$(basename "$cask" .rb)
-              result=$(brew livecheck --cask "$TAP/$name" --json 2>/dev/null || echo "{}")
+            [ -f "$cask" ] || continue
+            name=$(basename "$cask" .rb)
+            echo "::group::livecheck $name"
+            result=$(brew livecheck --cask "$TAP/$name" --json) || {
+              echo "livecheck failed for $name"
+              echo "::endgroup::"
+              continue
+            }
+            echo "$result"
+            echo "::endgroup::"
 
-              if [ -n "$result" ] && [ "$result" != "{}" ]; then
-                current=$(echo "$result" | jq -r '.[0].version.current' 2>/dev/null || echo "")
-                latest=$(echo "$result" | jq -r '.[0].version.latest' 2>/dev/null || echo "")
+            current=$(echo "$result" | jq -r '.[0].version.current')
+            latest=$(echo "$result" | jq -r '.[0].version.latest')
 
-                echo "- **$name**: $current → $latest" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **$name**: $current → $latest" >> "$GITHUB_STEP_SUMMARY"
 
-                if [ -n "$latest" ] && [ "$current" != "$latest" ] && [ "$AUTO_PR" == "true" ]; then
-                  update_cask "$name" "$latest"
-                fi
-              fi
+            if [ -n "$latest" ] && [ "$latest" != "null" ] && [ "$current" != "$latest" ] && [ "$AUTO_PR" == "true" ]; then
+              update_cask "$name" "$latest"
             fi
           done
