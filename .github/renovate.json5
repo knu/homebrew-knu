@@ -44,14 +44,4 @@
       dependencyDashboardApproval: true,
     },
   ],
-  postUpdateOptions: [
-    'gomodTidy',
-    'npmDedupe',
-  ],
-  prConcurrentLimit: 3,
-  prHourlyLimit: 2,
-  commitMessagePrefix: 'chore(deps):',
-  commitMessageAction: 'update',
-  commitMessageTopic: '{{depName}}',
-  commitMessageExtra: 'to {{newVersion}}',
 }
