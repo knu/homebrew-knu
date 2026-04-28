@@ -6,7 +6,7 @@
   ],
   "timezone": "Asia/Tokyo",
   "schedule": ["after 10pm and before 5am every weekday", "every weekend"],
-  "labels": ["dependencies"],
+  "labels": ["dependencies", "automerge"],
   "packageRules": [
     {
       "description": "Automerge GitHub Actions updates",

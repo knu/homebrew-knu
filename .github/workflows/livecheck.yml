@@ -69,6 +69,7 @@ jobs:
               gh pr create \
                 --title "$name $new_version" \
                 --body "Automated version bump to $new_version" \
+                --label automerge \
                 --base main \
                 --head "bump-$name-$new_version"
             fi
@@ -134,6 +135,7 @@ jobs:
             gh pr create \
               --title "$name $new_version" \
               --body "Automated version bump to $new_version" \
+              --label automerge \
               --base main \
               --head "bump-$name-$new_version"
 
