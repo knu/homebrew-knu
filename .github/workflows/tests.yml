@@ -6,6 +6,7 @@ on:
   pull_request:
 jobs:
   test-bot:
+    name: test-bot (${{ matrix.os }})
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -42,3 +43,20 @@ jobs:
         with:
           name: bottles
           path: '*.bottle.*'
+
+  test-bot-result:
+    name: brew test-bot
+    runs-on: ubuntu-latest
+    needs: test-bot
+    if: always()
+    steps:
+      - name: Check test-bot result
+        env:
+          TEST_BOT_RESULT: ${{ needs.test-bot.result }}
+        run: |
+          if [ "$TEST_BOT_RESULT" != "success" ]; then
+            echo "test-bot result: $TEST_BOT_RESULT"
+            exit 1
+          fi
+
+          echo "test-bot result: $TEST_BOT_RESULT"
