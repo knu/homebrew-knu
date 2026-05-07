@@ -52,26 +52,32 @@ jobs:
           update_formula() {
             local name="$1"
             local new_version="$2"
+            local branch="bump-$name-$new_version"
 
             echo "Updating $name to $new_version..."
 
-            git checkout -b "bump-$name-$new_version"
+            if gh pr list --state open --head "$branch" --json number --jq '.[0].number' | grep -q .; then
+              echo "PR for $branch already exists; skipping."
+              return 0
+            fi
+
+            git checkout -b "$branch"
 
             brew bump-formula-pr --no-browse --no-fork --write-only \
               --version="$new_version" \
               "$TAP/$name"
 
-            if git diff --stat; then
+            if git diff --stat | grep -q .; then
               git add Formula/"$name".rb
               git commit -m "$name $new_version"
-              git push -f origin "bump-$name-$new_version"
+              git push -f origin "$branch"
 
               gh pr create \
                 --title "$name $new_version" \
                 --body "Automated version bump to $new_version" \
                 --label automerge \
                 --base main \
-                --head "bump-$name-$new_version"
+                --head "$branch"
             fi
 
             git checkout main
@@ -113,10 +119,16 @@ jobs:
           update_cask() {
             local name="$1"
             local new_version="$2"
+            local branch="bump-$name-$new_version"
 
             echo "Updating $name to $new_version..."
 
-            git checkout -b "bump-$name-$new_version"
+            if gh pr list --state open --head "$branch" --json number --jq '.[0].number' | grep -q .; then
+              echo "PR for $branch already exists; skipping."
+              return 0
+            fi
+
+            git checkout -b "$branch"
 
             brew bump-cask-pr --no-browse --no-fork --write-only --no-audit \
               --version="$new_version" \
@@ -124,20 +136,20 @@ jobs:
 
             if ! git diff --stat | grep -q .; then
               git checkout main
-              git branch -D "bump-$name-$new_version" 2>/dev/null || true
+              git branch -D "$branch" 2>/dev/null || true
               return 0
             fi
 
             git add Casks/"$name".rb
             git commit -m "$name $new_version"
-            git push -f origin "bump-$name-$new_version"
+            git push -f origin "$branch"
 
             gh pr create \
               --title "$name $new_version" \
               --body "Automated version bump to $new_version" \
               --label automerge \
               --base main \
-              --head "bump-$name-$new_version"
+              --head "$branch"
 
             git checkout main
           }
