@@ -1,6 +1,6 @@
 cask "shogihome" do
-  version "1.27.1"
-  sha256 "756407909728137ee9fb51a4f1126c199bce93ebdd380d1a2fe336c334f03131"
+  version "1.27.2"
+  sha256 "7d9d821ae65dd7b3bed2e27f99ea0d8129de6aa3230efbb9ca14c81148618bfa"
 
   url "https://github.com/sunfish-shogi/shogihome/releases/download/v#{version}/release-v#{version}-mac.zip",
       verified: "github.com/sunfish-shogi/shogihome/releases/download/"
