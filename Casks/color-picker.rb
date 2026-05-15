@@ -16,7 +16,7 @@ cask "color-picker" do
     end
   end
 
-  depends_on macos: ">= :tahoe"
+  depends_on macos: :tahoe
 
   app "Color Picker.app"
 

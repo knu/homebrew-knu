@@ -11,10 +11,10 @@ cask "copyq" do
         verified: "github.com/hluk/CopyQ/"
 
     on_arm do
-      depends_on macos: ">= :monterey"
+      depends_on macos: :monterey
     end
     on_intel do
-      depends_on macos: ">= :ventura"
+      depends_on macos: :ventura
     end
   end
 

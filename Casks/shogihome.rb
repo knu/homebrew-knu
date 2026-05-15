@@ -13,6 +13,7 @@ cask "shogihome" do
     strategy :github_latest
   end
 
+  depends_on :macos
   container nested: "ShogiHome-#{version}-universal.dmg"
 
   app "ShogiHome.app"

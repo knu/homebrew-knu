@@ -12,7 +12,7 @@ cask "gk6-plus" do
     regex(/GK6\+Mac App V(\d+(?:\.\d+)+)/i)
   end
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
   container nested: "GK6X Mac App-#{version}.dmg"
 
   app "GK6+.app"
