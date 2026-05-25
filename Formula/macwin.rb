@@ -1,8 +1,8 @@
 class Macwin < Formula
   desc "macOS command-line tool for finding, OCRing, and raising windows"
   homepage "https://github.com/knu/macwin"
-  url "https://github.com/knu/macwin/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "8ffd2a5320832f8e5d3a145cf698eedb20766877b71561acfd3bfd4c31e3ed8c"
+  url "https://github.com/knu/macwin/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "ce9f2d08ed1926a7e997040aa355d3d12b2a1a32327d41f26600b046a7979d49"
   license "MIT"
   head "https://github.com/knu/macwin.git", branch: "main"
 
@@ -15,7 +15,7 @@ class Macwin < Formula
   depends_on xcode: ["16.0", :build]
 
   def install
-    system "make", "app", "CONFIGURATION=release"
+    system "make", "app", "CONFIGURATION=release", "DISABLE_SANDBOX=1"
 
     libexec.install ".build/MacWin.app"
     (bin/"macwin-cli").write <<~SH
