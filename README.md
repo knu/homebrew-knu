@@ -1,4 +1,4 @@
-# Knu Knu
+# Homebrew Tap: knu/knu
 
 ## How do I install these formulae?
 
