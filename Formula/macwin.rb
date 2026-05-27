@@ -11,8 +11,8 @@ class Macwin < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
-  depends_on macos: :sonoma
   depends_on xcode: ["16.0", :build]
+  depends_on macos: :sonoma
 
   def install
     system "make", "app", "CONFIGURATION=release", "DISABLE_SANDBOX=1"
