@@ -53,25 +53,38 @@ jobs:
             local name="$1"
             local new_version="$2"
             local branch="bump-$name-$new_version"
+            local existing_pr=""
 
             echo "Updating $name to $new_version..."
 
-            if gh pr list --state open --head "$branch" --json number --jq '.[0].number' | grep -q .; then
-              echo "PR for $branch already exists; skipping."
-              return 0
+            existing_pr=$(gh pr list --state open --head "$branch" --json number --jq '.[0].number')
+            if [ -n "$existing_pr" ]; then
+              git fetch origin "$branch"
             fi
 
-            git checkout -b "$branch"
+            git checkout -B "$branch" origin/main
 
             brew bump-formula-pr --no-browse --no-fork --write-only \
               --version="$new_version" \
               "$TAP/$name"
 
-            if git diff --stat | grep -q .; then
-              git add Formula/"$name".rb
-              git commit -m "$name $new_version"
-              git push -f origin "$branch"
+            if ! git diff --stat | grep -q .; then
+              git checkout main
+              return 0
+            fi
 
+            git add Formula/"$name".rb
+            git commit -m "$name $new_version"
+
+            if [ -n "$existing_pr" ] && git diff --quiet "origin/$branch" HEAD -- Formula/"$name".rb; then
+              echo "PR #$existing_pr for $branch already has the latest content; skipping."
+              git checkout main
+              return 0
+            fi
+
+            git push -f origin "$branch"
+
+            if [ -z "$existing_pr" ]; then
               gh pr create \
                 --title "$name $new_version" \
                 --body "Automated version bump to $new_version" \
@@ -120,15 +133,16 @@ jobs:
             local name="$1"
             local new_version="$2"
             local branch="bump-$name-$new_version"
+            local existing_pr=""
 
             echo "Updating $name to $new_version..."
 
-            if gh pr list --state open --head "$branch" --json number --jq '.[0].number' | grep -q .; then
-              echo "PR for $branch already exists; skipping."
-              return 0
+            existing_pr=$(gh pr list --state open --head "$branch" --json number --jq '.[0].number')
+            if [ -n "$existing_pr" ]; then
+              git fetch origin "$branch"
             fi
 
-            git checkout -b "$branch"
+            git checkout -B "$branch" origin/main
 
             brew bump-cask-pr --no-browse --no-fork --write-only --no-audit \
               --version="$new_version" \
@@ -136,20 +150,28 @@ jobs:
 
             if ! git diff --stat | grep -q .; then
               git checkout main
-              git branch -D "$branch" 2>/dev/null || true
               return 0
             fi
 
             git add Casks/"$name".rb
             git commit -m "$name $new_version"
+
+            if [ -n "$existing_pr" ] && git diff --quiet "origin/$branch" HEAD -- Casks/"$name".rb; then
+              echo "PR #$existing_pr for $branch already has the latest content; skipping."
+              git checkout main
+              return 0
+            fi
+
             git push -f origin "$branch"
 
-            gh pr create \
-              --title "$name $new_version" \
-              --body "Automated version bump to $new_version" \
-              --label automerge \
-              --base main \
-              --head "$branch"
+            if [ -z "$existing_pr" ]; then
+              gh pr create \
+                --title "$name $new_version" \
+                --body "Automated version bump to $new_version" \
+                --label automerge \
+                --base main \
+                --head "$branch"
+            fi
 
             git checkout main
           }
