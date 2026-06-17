@@ -18,23 +18,42 @@ permissions:
 jobs:
   livecheck:
     runs-on: macos-latest
+    env:
+      AUTOMATION_APP_ID: ${{ secrets.AUTOMATION_APP_ID }}
+      AUTOMATION_APP_PRIVATE_KEY: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+      AUTOMATION_REVIEWER: ${{ vars.AUTOMATION_REVIEWER || github.repository_owner }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ env.AUTOMATION_APP_ID }}
+          private-key: ${{ env.AUTOMATION_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
 
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
 
       - name: Add tap
-        run: brew tap ${{ github.repository }}
+        env:
+          REPO: ${{ github.repository }}
+        run: brew tap "$REPO"
 
       - name: Configure git
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPO}.git"
 
       - name: Initialize summary
         run: |
@@ -42,7 +61,8 @@ jobs:
 
       - name: Check and update formulae
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_REVIEWER: ${{ env.AUTOMATION_REVIEWER }}
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
           REPO: ${{ github.repository }}
         run: |
@@ -85,12 +105,17 @@ jobs:
             git push -f origin "$branch"
 
             if [ -z "$existing_pr" ]; then
-              gh pr create \
-                --title "$name $new_version" \
-                --body "Automated version bump to $new_version" \
-                --label automerge \
-                --base main \
+              pr_args=(
+                --title "$name $new_version"
+                --body "Automated version bump to $new_version"
+                --label automerge
+                --base main
                 --head "$branch"
+              )
+              if [ -n "$PR_REVIEWER" ]; then
+                pr_args+=(--reviewer "$PR_REVIEWER")
+              fi
+              gh pr create "${pr_args[@]}"
             fi
 
             git checkout main
@@ -122,7 +147,8 @@ jobs:
 
       - name: Check and update casks
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_REVIEWER: ${{ env.AUTOMATION_REVIEWER }}
           AUTO_PR: ${{ github.event.inputs.auto_pr || 'true' }}
           REPO: ${{ github.repository }}
         run: |
@@ -165,12 +191,17 @@ jobs:
             git push -f origin "$branch"
 
             if [ -z "$existing_pr" ]; then
-              gh pr create \
-                --title "$name $new_version" \
-                --body "Automated version bump to $new_version" \
-                --label automerge \
-                --base main \
+              pr_args=(
+                --title "$name $new_version"
+                --body "Automated version bump to $new_version"
+                --label automerge
+                --base main
                 --head "$branch"
+              )
+              if [ -n "$PR_REVIEWER" ]; then
+                pr_args+=(--reviewer "$PR_REVIEWER")
+              fi
+              gh pr create "${pr_args[@]}"
             fi
 
             git checkout main
