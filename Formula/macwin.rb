@@ -1,8 +1,8 @@
 class Macwin < Formula
   desc "macOS command-line tool for finding, OCRing, and raising windows"
   homepage "https://github.com/knu/macwin"
-  url "https://github.com/knu/macwin/archive/refs/tags/v0.2.1.tar.gz"
-  sha256 "861961d334c7ef84bf11e62e88d76d703c99450aa30d52756b530227f93f7cc8"
+  url "https://github.com/knu/macwin/archive/refs/tags/v0.2.2.tar.gz"
+  sha256 "7c10038b3de9c75f7c41787515ecb43da531579ae3d659a28af9965bf1884f93"
   license "MIT"
   head "https://github.com/knu/macwin.git", branch: "main"
 
