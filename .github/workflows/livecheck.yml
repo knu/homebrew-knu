@@ -24,13 +24,13 @@ jobs:
       AUTOMATION_REVIEWER: ${{ vars.AUTOMATION_REVIEWER || github.repository_owner }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ env.AUTOMATION_APP_ID }}
           private-key: ${{ env.AUTOMATION_APP_PRIVATE_KEY }}
