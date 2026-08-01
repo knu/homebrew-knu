@@ -10,6 +10,7 @@ cask "voicevox" do
     url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-#{arch}-#{version}.zip",
         verified: "github.com/VOICEVOX/voicevox/releases/download/"
   end
+
   name "VOICEVOX"
   desc "Free text-to-speech and singing voice synthesis software"
   homepage "https://voicevox.hiroshiba.jp/"

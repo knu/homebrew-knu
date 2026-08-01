@@ -7,15 +7,15 @@ cask "copyq" do
     sha256 arm:   "57563fb2ca24751974c35b744ca7ea2c5c171bc5c00f59b3c8379912876ae4b1",
            intel: "817a35cc5e143207496d78ccc0d8dd62a9858fece8099d1f4591d00b24dbca27"
 
-    url "https://github.com/hluk/CopyQ/releases/download/v#{version}/CopyQ-#{version}-macos-#{arch}.dmg",
-        verified: "github.com/hluk/CopyQ/"
-
     on_arm do
       depends_on macos: :monterey
     end
+
     on_intel do
       depends_on macos: :ventura
     end
+    url "https://github.com/hluk/CopyQ/releases/download/v#{version}/CopyQ-#{version}-macos-#{arch}.dmg",
+        verified: "github.com/hluk/CopyQ/"
   end
 
   name "CopyQ"
