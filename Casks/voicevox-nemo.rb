@@ -23,6 +23,7 @@ cask "voicevox-nemo" do
   end
 
   depends_on cask: "voicevox"
+  depends_on macos: :big_sur
   container type: :naked
 
   uninstall script: { executable: "bash", args: ["-c", <<~SH.chomp] }
