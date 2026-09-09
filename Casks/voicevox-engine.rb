@@ -11,36 +11,33 @@ cask "voicevox-engine" do
 
     binary "macos-#{arch}/run", target: "voicevox-engine"
 
-    postflight do
-      system_command "xattr",
-                     args: ["-dr", "com.apple.quarantine", "#{staged_path}/macos-#{arch}"]
+    postflight_steps do
+      run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{staged_path}}/macos-{{arch}}"]
 
-      plist_path = "#{Dir.home}/Library/LaunchAgents/homebrew.mxcl.voicevox-engine.plist"
-      FileUtils.mkdir_p File.dirname(plist_path)
-      File.write(plist_path, <<~PLIST)
+      mkdir_p "~/Library/LaunchAgents"
+      write_file "~/Library/LaunchAgents/homebrew.mxcl.voicevox-engine.plist", <<~PLIST
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
         <plist version="1.0">
         <dict>
           <key>Label</key>
           <string>homebrew.mxcl.voicevox-engine</string>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{staged_path}/macos-#{arch}/run</string>
-          </array>
-          <key>WorkingDirectory</key>
-          <string>#{staged_path}/macos-#{arch}</string>
           <key>RunAtLoad</key>
           <false/>
           <key>KeepAlive</key>
           <true/>
-          <key>StandardOutPath</key>
-          <string>#{Dir.home}/Library/Logs/voicevox-engine.log</string>
-          <key>StandardErrorPath</key>
-          <string>#{Dir.home}/Library/Logs/voicevox-engine.log</string>
         </dict>
         </plist>
       PLIST
+      run "/bin/sh",
+          args: ["-eu", "-c", <<~SH, "--", "{{staged_path}}/macos-{{arch}}"]
+            plist="$HOME/Library/LaunchAgents/homebrew.mxcl.voicevox-engine.plist"
+            /usr/bin/plutil -insert ProgramArguments -array "$plist"
+            /usr/bin/plutil -insert ProgramArguments.0 -string "$1/run" "$plist"
+            /usr/bin/plutil -insert WorkingDirectory -string "$1" "$plist"
+            /usr/bin/plutil -insert StandardOutPath -string "$HOME/Library/Logs/voicevox-engine.log" "$plist"
+            /usr/bin/plutil -insert StandardErrorPath -string "$HOME/Library/Logs/voicevox-engine.log" "$plist"
+          SH
     end
   end
 

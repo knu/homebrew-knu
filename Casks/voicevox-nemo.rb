@@ -7,8 +7,7 @@ cask "voicevox-nemo" do
     sha256 arm:   "d67cbe5c8e23c0ee41a398e12e20b98de039a0eada944a3938bc6c3e39fc8f4f",
            intel: "60743219c067296ccdd038a91121b8f22c57389a3e2c534accb2cf69028227c8"
 
-    url "https://github.com/VOICEVOX/voicevox_nemo_engine/releases/download/#{version}/voicevox_engine-macos-#{arch}-#{version}.vvpp",
-        verified: "github.com/VOICEVOX/voicevox_nemo_engine/releases/download/"
+    url "https://github.com/VOICEVOX/voicevox_nemo_engine/releases/download/#{version}/voicevox_engine-macos-#{arch}-#{version}.vvpp"
 
     installer manual: "voicevox_engine-macos-#{arch}-#{version}.vvpp"
   end

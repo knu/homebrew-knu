@@ -2,8 +2,7 @@ cask "color-picker" do
   version "2.2.0-1767305140,kk4c8p47uj791k5t0nj0n,jivahp9p4k5f24q76473zrnkd"
   sha256 "bc31a7e3ae1d100c66227cc7f25efc836407c530181ae4a20933a47d9eb78a5b"
 
-  url "https://www.dropbox.com/scl/fi/#{version.csv.second}/Color-Picker-#{version.major_minor_patch}.zip?rlkey=#{version.csv.third}&raw=1",
-      verified: "dropbox.com/scl/fi/"
+  url "https://www.dropbox.com/scl/fi/#{version.csv.second}/Color-Picker-#{version.major_minor_patch}.zip?rlkey=#{version.csv.third}&raw=1"
   name "Color Picker"
   desc "Standalone System Color Picker supercharged"
   homepage "https://sindresorhus.com/system-color-picker"

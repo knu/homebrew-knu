@@ -14,8 +14,7 @@ cask "copyq" do
     on_intel do
       depends_on macos: :ventura
     end
-    url "https://github.com/hluk/CopyQ/releases/download/v#{version}/CopyQ-#{version}-macos-#{arch}.dmg",
-        verified: "github.com/hluk/CopyQ/"
+    url "https://github.com/hluk/CopyQ/releases/download/v#{version}/CopyQ-#{version}-macos-#{arch}.dmg"
   end
 
   name "CopyQ"
@@ -29,24 +28,15 @@ cask "copyq" do
 
   app "CopyQ.app"
 
-  postflight do
-    app_path = "#{appdir}/CopyQ.app"
-    accessibility_pane =
-      "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension" \
-      "?Privacy_Accessibility"
-
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", app_path],
-                   sudo: false
-    system_command "/usr/bin/codesign",
-                   args: ["--force", "--deep", "--sign", "-", app_path],
-                   sudo: false
-    system_command "/usr/bin/open",
-                   args: [accessibility_pane],
-                   sudo: false
-
-    ohai "CopyQ has been re-signed ad-hoc and Accessibility settings opened."
-    ohai "Re-grant Accessibility access to CopyQ.app after every update."
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/CopyQ.app"]
+    run "/usr/bin/codesign", args: ["--force", "--deep", "--sign", "-", "{{appdir}}/CopyQ.app"]
+    run "/usr/bin/open",
+        args: ["x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility"]
+    run "/bin/echo",
+        args:         ["CopyQ has been re-signed ad-hoc and Accessibility settings opened.",
+                       "Re-grant Accessibility access to CopyQ.app after every update."],
+        print_stdout: true
   end
 
   zap trash: [

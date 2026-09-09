@@ -7,8 +7,7 @@ cask "voicevox" do
     sha256 arm:   "ce92131cbd3131b3ff641b003561146494377fc7922f2f7a6beb480dc54842e8",
            intel: "6630831ab2a57fa9773448fdf433df3c3fefab81ab18d6f6103ddbefe15283eb"
 
-    url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-#{arch}-#{version}.zip",
-        verified: "github.com/VOICEVOX/voicevox/releases/download/"
+    url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-#{arch}-#{version}.zip"
   end
 
   name "VOICEVOX"
