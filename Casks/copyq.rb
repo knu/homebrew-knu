@@ -26,6 +26,8 @@ cask "copyq" do
     strategy :github_latest
   end
 
+  depends_on :macos
+
   app "CopyQ.app"
 
   postflight_steps do
