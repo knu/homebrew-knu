@@ -51,7 +51,7 @@ cask "voicevox-engine" do
   end
 
   depends_on formula: "p7zip"
-  depends_on macos: :big_sur
+  depends_on :macos
 
   uninstall launchctl: "homebrew.mxcl.voicevox-engine"
 
