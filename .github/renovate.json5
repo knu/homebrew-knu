@@ -16,6 +16,13 @@
   ],
   packageRules: [
     {
+      description: 'Formula and cask bumps are handled by the livecheck workflow',
+      matchManagers: [
+        'homebrew',
+      ],
+      enabled: false,
+    },
+    {
       description: 'Automerge GitHub Actions updates',
       matchManagers: [
         'github-actions',
