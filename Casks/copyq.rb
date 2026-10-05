@@ -27,10 +27,13 @@ cask "copyq" do
     run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/CopyQ.app"]
     run "/usr/bin/codesign", args: ["--force", "--deep", "--sign", "-", "{{appdir}}/CopyQ.app"]
     run "/usr/bin/open",
-        args: ["x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility"]
+        args:         [
+          "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility",
+        ],
+        must_succeed: false
     run "/bin/echo",
-        args:         ["CopyQ has been re-signed ad-hoc and Accessibility settings opened.",
-                       "Re-grant Accessibility access to CopyQ.app after every update."],
+        args:         ["CopyQ has been re-signed ad-hoc.",
+                       "Re-grant Accessibility access to CopyQ.app in System Settings after every update."],
         print_stdout: true
   end
 
