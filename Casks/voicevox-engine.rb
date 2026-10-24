@@ -1,11 +1,11 @@
 cask "voicevox-engine" do
-  version "0.25.2"
+  version "0.26.0"
 
   on_macos do
     arch arm: "arm64", intel: "x64"
 
-    sha256 arm:   "6bd492249ac83c119f6fe38f2e44804e83ebc2c7f75295b21715080beb673a28",
-           intel: "25fdb29e1d2cf5b203159ef2f5de291053e8ea89c9665c2cb2df205075e66707"
+    sha256 arm:   "76e445f13e142d05a0fdb6a9aeb8935589a0e40654d24185c338739e711f5d8f",
+           intel: "8d389f82d0d3a7f5d454e466d5a788521a4db39eef882b73fee284f49a0bf8d9"
 
     url "https://github.com/VOICEVOX/voicevox_engine/releases/download/#{version}/voicevox_engine-macos-#{arch}-#{version}.7z.001"
 
