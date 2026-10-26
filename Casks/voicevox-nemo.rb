@@ -1,11 +1,11 @@
 cask "voicevox-nemo" do
-  version "0.24.0"
+  version "0.26.0"
 
   on_macos do
     arch arm: "arm64", intel: "x64"
 
-    sha256 arm:   "d67cbe5c8e23c0ee41a398e12e20b98de039a0eada944a3938bc6c3e39fc8f4f",
-           intel: "60743219c067296ccdd038a91121b8f22c57389a3e2c534accb2cf69028227c8"
+    sha256 arm:   "70c8e26be64684008264b23705f1439f8f19259a9571cbbeac930452e89b4ce2",
+           intel: "a393a4d94ae2f7f1d3d83b251c3602e4d3e0e936b031f5c7ee6860b3346f97d7"
 
     url "https://github.com/VOICEVOX/voicevox_nemo_engine/releases/download/#{version}/voicevox_engine-macos-#{arch}-#{version}.vvpp"
 
