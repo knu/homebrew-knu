@@ -16,6 +16,21 @@
   ],
   packageRules: [
     {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepTypes": [
+        "action"
+      ],
+      "matchFileNames": [
+        ".github/workflows/livecheck.yml",
+        ".github/workflows/publish.yml",
+        ".github/workflows/tests.yml",
+        ".github/workflows/actions-lock.yml"
+      ],
+      "pinDigests": false
+    },
+    {
       description: 'Formula and cask bumps are handled by the livecheck workflow',
       matchManagers: [
         'homebrew',
