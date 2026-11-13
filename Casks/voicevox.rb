@@ -1,11 +1,11 @@
 cask "voicevox" do
-  version "0.26.1"
+  version "0.26.2"
 
   on_macos do
     arch arm: "arm64", intel: "x64"
 
-    sha256 arm:   "ed5f5eba92b6b2913e5c98cdc314823f40f9abfc8781f0d547a84c13353966f3",
-           intel: "f47763cd1300e67a178b96df0559bf530002cd0313e49d4e12c05b853d860477"
+    sha256 arm:   "3da773c2acfdb3e1f317865ab9b453c92491a53af0cbbdb9e6d13c4e6b82bb75",
+           intel: "e85440df6103d0d8b1a1a4889036797952a0af8d5520f9268c1c98f88b3939d9"
 
     url "https://github.com/VOICEVOX/voicevox/releases/download/#{version}/voicevox-macos-cpu-#{arch}-#{version}.zip"
   end
