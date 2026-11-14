@@ -1,6 +1,6 @@
 cask "font-moralerspace-ce-jpdoc-nfm" do
-  version "3.0.0"
-  sha256 "fdc75097031382942dd29d538310d7b4619716fda4e5258eee55e8e7f96d70df"
+  version "3.1.0"
+  sha256 "69161bbafff02dc1e060d02efb06e4e880da255ae26e653f55ef5d63732c2b8c"
 
   url "https://github.com/knu/moralerspace/releases/download/v#{version}/MoralerspaceJPDOCNFM_v#{version}.zip"
   name "Moralerspace Community Edition JPDOC NFM"

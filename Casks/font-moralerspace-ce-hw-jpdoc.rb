@@ -1,6 +1,6 @@
 cask "font-moralerspace-ce-hw-jpdoc" do
-  version "3.0.0"
-  sha256 "51ca15a58262a6602992d9452f8f435dc80a49cd78dc4ce6aa5d289cdce2dc2b"
+  version "3.1.0"
+  sha256 "413fde8110e01a454ac041b95ca537d82e4773830dff2073292431d6926de48d"
 
   url "https://github.com/knu/moralerspace/releases/download/v#{version}/MoralerspaceHWJPDOC_v#{version}.zip"
   name "Moralerspace Community Edition HW JPDOC"

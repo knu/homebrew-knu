@@ -1,6 +1,6 @@
 cask "font-moralerspace-ce-hw-nfm" do
-  version "3.0.0"
-  sha256 "534a9379fcfeebd5e20d12865336e17b2699864ca128ebc3c1541122982d5f79"
+  version "3.1.0"
+  sha256 "44dde73dd8473a4ff2640460741dfd7f2cb0c205456d6c3d4689a342b0ab8516"
 
   url "https://github.com/knu/moralerspace/releases/download/v#{version}/MoralerspaceHWNFM_v#{version}.zip"
   name "Moralerspace Community Edition HW NFM"

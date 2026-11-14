@@ -1,6 +1,6 @@
 cask "font-moralerspace-ce" do
-  version "3.0.0"
-  sha256 "a668cad27b098ca25af5a5de2ca2f2491a87284488ad46539b7bed575190e117"
+  version "3.1.0"
+  sha256 "ed54a1091c45cd4ccd4b37dd3e798e0545475123a2e68dc85c521a734d421a77"
 
   url "https://github.com/knu/moralerspace/releases/download/v#{version}/Moralerspace_v#{version}.zip"
   name "Moralerspace Community Edition"
