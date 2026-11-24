@@ -1,8 +1,8 @@
 class Critty < Formula
   desc "Terminal UI for reviewing code and documents with coding agents"
   homepage "https://github.com/crittylabs/critty"
-  url "https://github.com/crittylabs/critty/archive/refs/tags/v2.0.1.tar.gz"
-  sha256 "276c324a0a14b3d189552af8fd28cae52a340744baa3fc40ea228981ffe1c639"
+  url "https://github.com/crittylabs/critty/archive/refs/tags/v2.2.0.tar.gz"
+  sha256 "83a3681f2dd77221ef49d9f12c6c7d98b83f1e07d2912bdade4fa19b49ead39a"
   license "MIT"
   head "https://github.com/crittylabs/critty.git", branch: "main"
 
